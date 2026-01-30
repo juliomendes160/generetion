@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Postagem } from './postagem/postagem';
 import { PostagemModule } from './postagem/postagem.module';
+import { Tema } from './tema/tema';
+import { TemaModule } from './tema/tema.module';
 
 @Module({
 	imports: [
@@ -14,11 +16,12 @@ import { PostagemModule } from './postagem/postagem.module';
 			username: "root",
 			password: "root",
 			database: "db_blogpessoal",
-			entities: [Postagem],
+			entities: [Postagem, Tema],
 			synchronize: true,
 			logging: true,
 		}),
 		PostagemModule,
+		TemaModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
