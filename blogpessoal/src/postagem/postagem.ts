@@ -17,4 +17,9 @@ export class Postagem {
 
 	@UpdateDateColumn()
 	data: Date;
+
+	@ManyToOne(() => Tema, (tema) => tema.postagem, {
+		onDelete: "CASCADE"
+	})
+	tema: Tema
 }

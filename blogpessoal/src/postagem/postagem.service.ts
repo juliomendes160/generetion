@@ -1,23 +1,32 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, ILike, Repository } from 'typeorm';
+import { TemaService } from '../tema/tema.service';
 import { Postagem } from './postagem';
 
 @Injectable()
 export class PostagemService {
 	constructor(
 		@InjectRepository(Postagem)
-		private postagemRepository: Repository<Postagem>
+		private postagemRepository: Repository<Postagem>,
+		private temaService: TemaService
 	) { }
 
 	async findAll(): Promise<Postagem[]> {
-		return await this.postagemRepository.find();
+		return await this.postagemRepository.find({
+			relations: {
+				tema: true
+			}
+		});
 	}
 
 	async findOneById(id: number): Promise<Postagem> {
 		const postagem = await this.postagemRepository.findOne({
 			where: {
 				id
+			},
+			relations: {
+				tema: true
 			}
 		});
 
@@ -30,15 +39,22 @@ export class PostagemService {
 		return await this.postagemRepository.find({
 			where: {
 				titulo: ILike(`%${titulo}%`)
+			},
+			relations: {
+				tema: true
 			}
 		});
 	}
 
 	async create(postagem: Postagem): Promise<Postagem> {
+		await this.temaService.findOneById(postagem.tema.id);
+
 		return await this.postagemRepository.save(postagem);
 	}
 
 	async update(postagem: Postagem): Promise<Postagem> {
+		await this.temaService.findOneById(postagem.tema.id);
+		
 		await this.findOneById(postagem.id);
 
 		return await this.postagemRepository.save(postagem);

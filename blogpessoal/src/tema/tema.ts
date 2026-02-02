@@ -13,4 +13,8 @@ export class Tema {
 
 	@UpdateDateColumn()
 	data: Date;
+
+	@OneToMany(() => Postagem, (postagem) => postagem.tema)
+	postagem: Postagem[]
+
 }

@@ -22,6 +22,9 @@ export class TemaService {
 		const tema = await this.temaRepository.findOne({
 			where: {
 				id
+			},
+			relations: {
+				postagem: true
 			}
 		});
 
@@ -34,6 +37,9 @@ export class TemaService {
 		return await this.temaRepository.find({
 			where: {
 				descricao: ILike(`%${descricao}%`)
+			},
+			relations: {
+				postagem: true
 			}
 		});
 	}
