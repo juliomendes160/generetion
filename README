@@ -1,0 +1,380 @@
+# [Bootcamp - JavaScript Full Stack](https://github.com/conteudoGeneration/cookbook_javascript)
+
+## [Frontend com React](https://github.com/conteudoGeneration/cookbook_java_fullstack/blob/main/05_react/README.md)
+
+1. Introdução ao React
+2. Primeiros passos com o React
+
+```bash
+node -v
+
+npm -v
+```
+
+3. Projeto Blog Pessoal - Criar o Projeto com o Vite
+
+```bash
+npm create vite@8.1.0 blogpessoal -- --template react-ts << EOF
+y
+No
+No
+EOF
+cd blogpessoal
+npm install
+npm run dev
+```
+
+4. Projeto Blog Pessoal - Componente Home
+
+src/pages/home/Home.tsx
+
+```tsx
+import React from "react";
+
+function Home() {
+  return <div>Home</div>;
+}
+
+export default Home;
+```
+
+```tsx
+function Home() {
+  return (
+    <>
+      <div
+        style={{
+          backgroundColor: "#312e81",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            color: "white",
+            width: "100%",
+            maxWidth: "1280px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingTop: "1rem",
+              paddingBottom: "1rem",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "3rem",
+                fontWeight: "bold",
+              }}
+            >
+              Seja Bem Vinde!
+            </h2>
+
+            <p
+              style={{
+                fontSize: "1.25rem",
+              }}
+            >
+              Expresse aqui seus pensamentos e opiniões
+            </p>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                gap: "1rem",
+              }}
+            >
+              <div
+                style={{
+                  borderRadius: "0.5rem",
+                  color: "white",
+                  border: "2px solid white",
+                  padding: "0.5rem 1rem",
+                }}
+              >
+                Nova Postagem
+              </div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src="https://i.imgur.com/fyfri1v.png"
+              alt="Imagem Página Home"
+              style={{
+                width: "66%",
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default Home;
+```
+
+src/App.tsx
+
+```tsx
+import Home from "./pages/home/Home";
+
+function App() {
+  return <Home />;
+}
+
+export default App;
+```
+
+src/App.css
+
+```tsx
+
+```
+
+src/index.css
+
+```tsx
+
+```
+
+index.html
+
+```html
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="https://i.imgur.com/f4KMCRp.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projeto Blog Pessoal</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+```
+
+5. Introdução a Props, Hooks e Renderização Condicional
+
+bash
+
+```sh
+git clone https://github.com/conteudoGeneration/react_playground_ts
+
+npm install
+
+npm run dev
+```
+
+src/pages/home/Home.tsx
+
+```tsx
+interface homeProps {
+  titulo: string;
+  texto: string;
+}
+
+function Home(props: homeProps) {
+  return (
+    <div>
+      <h2>{props.titulo}</h2>
+      <p>{props.texto}</p>
+    </div>
+  );
+}
+
+export default Home;
+```
+
+src/App.tsx
+
+```tsx
+import "./App.css";
+import Home from "./pages/home/Home";
+
+function App() {
+  return (
+    <>
+      <Home
+        titulo="Componente Home"
+        texto="Este é o componente Home, que recebe props."
+      />
+    </>
+  );
+}
+
+export default App;
+```
+
+src/pages/contador/Contador.tsx
+
+```tsx
+import { useState } from "react";
+
+function Contador() {
+  const [valor, setValor] = useState(0);
+
+  function handleClick() {
+    setValor(valor + 1);
+  }
+
+  return (
+    <div>
+      <h2>Componente Contador</h2>
+      <p>O valor atual é: {valor}</p>
+      <button onClick={handleClick}>Adicionar 1</button>
+    </div>
+  );
+}
+
+export default Contador;
+```
+
+src/App.tsx
+
+```tsx
+import "./App.css";
+import Contador from "./pages/contador/Contador";
+
+function App() {
+  return (
+    <>
+      <Contador />
+    </>
+  );
+}
+
+export default App;
+```
+
+src/pages/tarefa/Tarefa.tsx
+
+```tsx
+import { useState, useEffect } from "react";
+
+function Tarefa() {
+  const [completed, setCompleted] = useState(false);
+  const [tarefa, setTarefa] = useState("");
+
+  useEffect(() => {
+    if (completed) {
+      setTarefa("Parabéns! Você concluiu a tarefa!");
+    }
+  }, [completed]);
+
+  return (
+    <div>
+      <h2>Componente Tarefa</h2>
+      <h3>{tarefa}</h3>
+      <p>Conclua a tarefa</p>
+      <button onClick={() => setCompleted(true)}>Concluir Tarefa</button>
+    </div>
+  );
+}
+
+export default Tarefa;
+```
+
+src/App.tsx
+
+```tsx
+import "./App.css";
+import Tarefa from "./pages/tarefa/Tarefa";
+
+function App() {
+  return (
+    <>
+      <Tarefa />
+    </>
+  );
+}
+
+export default App;
+```
+
+src/pages/login/Login.tsx
+
+```tsx
+import { useState } from "react";
+import Home from "../home/Home";
+
+function Login() {
+  const [isLogged, setIsLogged] = useState(false);
+
+  return (
+    <>
+      {isLogged ? (
+        <Home titulo="Componente Home" texto="Bem-vindo de Volta!" />
+      ) : (
+        <div>
+          <h2>Componente Login</h2>
+          <button onClick={() => setIsLogged(true)}>Entrar</button>
+        </div>
+      )}
+    </>
+  );
+}
+
+export default Login;
+```
+
+src/App.tsx
+
+```tsx
+import "./App.css";
+import Login from "./pages/login/Login";
+
+function App() {
+  return (
+    <>
+      <Login />
+    </>
+  );
+}
+
+export default App;
+```
+
+6. Introdução ao Tailwind
+7. Projeto Blog Pessoal - Instalação e Configuração do Tailwind
+8. Projeto Blog Pessoal - Componentes Navbar e Footer 9. Introdução ao React Router Dom
+9. Projeto Blog Pessoal - Configuração das Rotas com o React Router Dom
+10. Projeto Blog Pessoal - Página de Cadastro do Usuário - Estilização
+11. Projeto Blog Pessoal - Página de Login - Estilização 13. Introdução ao Axios
+12. Projeto Blog Pessoal - Interfaces Model 15. Projeto Blog Pessoal - Service
+13. Projeto Blog Pessoal - Página de Cadastro do Usuário - Lógica
+14. Introdução à Context API 18. Projeto Blog Pessoal - Configuração do Contexto AuthContext
+15. Projeto Blog Pessoal - Página de Login - Lógica
+16. Projeto Blog Pessoal - Componentes CardTema e Lista Temas - Estilização
+17. Projeto Blog Pessoal - Componentes CardTema e ListaTemas - Lógica
+18. Projeto Blog Pessoal - Componente Formulário Tema - Estilização
+19. Projeto Blog Pessoal - Componente Formulário Tema - Lógica
+20. Projeto Blog Pessoal - Componente Deletar Tema - Estilização
+21. Projeto Blog Pessoal - Componente Deletar Tema - Lógica
+22. Projeto Blog Pessoal - Componentes CardPostagem e ListaPostagens - Estilização
+23. Projeto Blog Pessoal - Componentes CardPostagem e ListaPostagens - Lógica
+24. Projeto Blog Pessoal - Componente Formulário Postagem - Estilização
+25. Projeto Blog Pessoal - Componente Formulário Postagem - Lógica
+26. Projeto Blog Pessoal - Componente Deletar Postagem - Estilização
+27. Projeto Blog Pessoal - Componente Deletar Postagem - Lógica
+28. Projeto Blog Pessoal - Página de Perfil - Estilização e Lógica
+29. Projeto Blog Pessoal - Ajustes Finais - Parte 01
+30. Projeto Blog Pessoal - Ajustes Finais - Parte 02
+31. Projeto Blog Pessoal - Deploy na Vercel
